@@ -6,7 +6,7 @@ function is_empty($var, $text, $location, $ms, $data){
    	 # Error message
    	 $em = "The ".$text." is required";
    	 header("Location: $location?$ms=$em&$data");
-   	 exit; 
+   	 exit;
    }
    return 0;
 }

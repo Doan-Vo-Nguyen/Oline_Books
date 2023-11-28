@@ -1,9 +1,35 @@
+<?php 
+session_start();
+
+# If search key is not set or empty
+if (!isset($_GET['key']) || empty($_GET['key'])) {
+	header("Location: index.php");
+	exit;
+}
+$key = $_GET['key'];
+
+# Database Connection File
+include "db_conn.php";
+
+# Book helper function
+include "php/func-book.php";
+$books = search_books($conn, $key);
+
+# author helper function
+include "php/func-author.php";
+$authors = get_all_author($conn);
+
+# Category helper function
+include "php/func-category.php";
+$categories = get_all_categories($conn);
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Online Book Store</title>
+	<title>Book Store</title>
 
     <!-- bootstrap 5 CDN-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -51,38 +77,20 @@
 		      </ul>
 		    </div>
 		  </div>
-		</nav>
-		<form action="search.php"
-             method="get" 
-             style="width: 100%; max-width: 30rem">
+		</nav><br>
+		Search result for <b><?=$key?></b>
 
-       	<div class="input-group my-5">
-		  <input type="text" 
-		         class="form-control"
-		         name="key" 
-		         placeholder="Search Book..." 
-		         aria-label="Search Book..." 
-		         aria-describedby="basic-addon2">
-
-		  <button class="input-group-text
-		                 btn btn-primary" 
-		          id="basic-addon2">
-		          <img src="img/search.png"
-		               width="20">
-
-		  </button>
-		</div>
-       </form>
 		<div class="d-flex pt-3">
 			<?php if ($books == 0){ ?>
 				<div class="alert alert-warning 
-        	            text-center p-5" 
+        	            text-center p-5 pdf-list" 
         	     role="alert">
-        	     <img src="img/empty.png" 
+        	     <img src="img/empty-search.png" 
         	          width="100">
         	     <br>
-			    There is no book in the database
-		       </div>
+				  The key <b>"<?=$key?>"</b> didn't match to any record
+		           in the database
+			  </div>
 			<?php }else{ ?>
 			<div class="pdf-list d-flex flex-wrap">
 				<?php foreach ($books as $book) { ?>
@@ -127,38 +135,6 @@
 				<?php } ?>
 			</div>
 		<?php } ?>
-
-		<div class="category">
-			<!-- List of categories -->
-			<div class="list-group">
-				<?php if ($categories == 0){
-					// do nothing
-				}else{ ?>
-				<a href="#"
-				   class="list-group-item list-group-item-action active">Category</a>
-				   <?php foreach ($categories as $category ) {?>
-				  
-				   <a href="category.php?id=<?=$category['id']?>"
-				      class="list-group-item list-group-item-action">
-				      <?=$category['name']?></a>
-				<?php } } ?>
-			</div>
-
-			<!-- List of authors -->
-			<div class="list-group mt-5">
-				<?php if ($authors == 0){
-					// do nothing
-				}else{ ?>
-				<a href="#"
-				   class="list-group-item list-group-item-action active">Author</a>
-				   <?php foreach ($authors as $author ) {?>
-				  
-				   <a href="author.php?id=<?=$author['id']?>"
-				      class="list-group-item list-group-item-action">
-				      <?=$author['name']?></a>
-				<?php } } ?>
-			</div>
-		</div>
 		</div>
 	</div>
 </body>

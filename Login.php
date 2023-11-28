@@ -1,57 +1,118 @@
+<?php
+    session_start();
+    include "login.php";
+    include "user.php";
+    if(isset($_POST["login"])){
+        $uname = $_POST["uname"];
+        $password = $_POST["psw"];
+        $user=checkuser($uname,$psw);
+        if(isset($user)&&(is_array($user))&&(count($user)>0)){
+            extract($user);
+        if($role==1){
+            header('location: index.php');
+        }else{
+            $tb="tai khoan nay khong co quyen truy cap";
+        }
+        }else{
+            $tb="tai khoan khong ton tai";
+        }
+    }
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>    
-    <!-- bootstrap 5 CDN-->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
 
-    <!-- bootstrap 5 Js bundle CDN-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
 
-    <link rel="stylesheet" href="css/style.css">
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
 
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+.boxcenter {
+    width: 500px;
+    margin: 0 auto;
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
 <body>
-    <div class="d-flex justify-content-center align-items-center"
-        style="min-height:100vh;">
-            <form class ="p-5 rounded shadow"
-                style="max-width: 30rem; width: 100%"
-                method="POST"
-                action="php/TacGia.php">
+<div class = "boxcenter">
+<h2>Login Form</h2>
 
-              
-                <h1 class="text-center display 4 pb-5">ĐĂNG NHẬP</h1>
-                
-                        <?php if (isset($_GET['error'])) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                 <?=htmlspecialchars($_GET['error']); ?>
-                             </div>
-                        <?php } ?>
-               
-                <!-- Email -->
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" 
-                        class="form-label">Email</label>
-                    <input type="email" 
-                        class="form-control" 
-                        name ="email"
-                        id="exampleInputEmail1" 
-                        aria-describedby="emailHelp">
-                </div>
-                <!-- Password -->
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" 
-                        class="form-label">Password</label>
-                    <input type="password" 
-                        class="form-control" 
-                        name="password"
-                        id="exampleInputPassword1">
-                </div>
-                <!-- Đăng Nhập -->
-                <button type="submit" class="btn btn-primary">Đăng Nhập</button>
-                <a href="index.php">Store</a>
-        </form>
-    </div>
+<form action="login.php" method="post">
+  <div class="imgcontainer">
+    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+    <?php
+        if(isset($tb)&&($tb!="")){
+            echo "<h3 style='color:red'>".$tb."</h3>";
+        }
+    ?>
+    <button type="submit" name = "login">Login</button>
+   
+</div>
+</form>
+</div>
 </body>
 </html>
