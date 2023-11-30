@@ -1,8 +1,8 @@
 <?php
-// connect of meta lienquan
+// connect 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "Vonguyen123@";
 $dbname = "online_books";
 
 // Create connection
