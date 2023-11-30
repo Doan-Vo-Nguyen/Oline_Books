@@ -9,7 +9,7 @@ if (!isset($_GET['key']) || empty($_GET['key'])) {
 $key = $_GET['key'];
 
 # Database Connection File
-include "db_conn.php";
+include "connect.php";
 
 # Book helper function
 include "php/func-book.php";
