@@ -11,7 +11,7 @@ if (!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 # Database Connection File
-include "db_conn.php";
+include "connect.php";
 
 # Book helper function
 include "php/func-book.php";

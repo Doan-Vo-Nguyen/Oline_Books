@@ -6,7 +6,7 @@ if (isset($_SESSION['user_id']) &&
     isset($_SESSION['user_email'])) {
 
 	# Database Connection File
-	include "../db_conn.php";
+	include "../connect.php";
 
     # Validation helper function
     include "func-validation.php";
