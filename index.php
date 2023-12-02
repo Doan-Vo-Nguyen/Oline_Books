@@ -1,3 +1,26 @@
+<?php 
+if(!isset($_SESSION))
+{
+	session_start();
+}
+	# Database Connection File
+	include "connect.php";
+
+	# Book helper function
+	include "php/func-book.php";
+    $books = get_all_books($conn);
+
+    # author helper function
+	include "php/func-author.php";
+    $authors = get_all_author($conn);
+
+    # Category helper function
+	include "php/func-category.php";
+    $categories = get_all_categories($conn);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

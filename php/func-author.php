@@ -1,13 +1,15 @@
 <?php 
-
+include "connect.php";
 # Get all Author function
-function get_all_author($con){
+function get_all_author($conn){
+   $sqlCount  = "SELECT COUNT(id) as count FROM authors ORDER BY id DESC";
    $sql  = "SELECT * FROM authors";
-   $stmt = $con->prepare($sql);
-   $stmt->execute();
-
-   if ($stmt->rowCount() > 0) {
-   	  $authors = $stmt->fetchAll();
+   $resultCount = mysqli_query($conn, $sqlCount);
+   $rowCount = mysqli_fetch_assoc($resultCount);
+   $result = mysqli_query($conn, $sql);
+   $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   if ($rowCount['count'] > 0) {
+      $authors = $row;
    }else {
       $authors = 0;
    }

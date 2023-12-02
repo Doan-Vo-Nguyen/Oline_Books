@@ -1,13 +1,15 @@
-<?php  
-
+<?php 
+include "connect.php";
 # Get all Categories function
-function get_all_categories($con){
+function get_all_categories($conn){
+   $sqlCount  = "SELECT COUNT(id) as count FROM categories ORDER BY id DESC";
    $sql  = "SELECT * FROM categories";
-   $stmt = $con->prepare($sql);
-   $stmt->execute();
-
-   if ($stmt->rowCount() > 0) {
-   	  $categories = $stmt->fetchAll();
+   $resultCount = mysqli_query($conn, $sqlCount);
+   $rowCount = mysqli_fetch_assoc($resultCount);
+   $result = mysqli_query($conn, $sql);
+   $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   if ($rowCount['count'] > 0) {
+      $categories = $row;
    }else {
       $categories = 0;
    }

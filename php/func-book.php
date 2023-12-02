@@ -1,13 +1,15 @@
-<?php  
-
+<?php 
+include "connect.php";
 # Get All books function
-function get_all_books($con){
-   $sql  = "SELECT * FROM books ORDER bY id DESC";
-   $stmt = $con->prepare($sql);
-   $stmt->execute();
-
-   if ($stmt->rowCount() > 0) {
-   	  $books = $stmt->fetchAll();
+function get_all_books($conn){
+   $sqlCount  = "SELECT COUNT(id) as count FROM books ORDER BY id DESC";
+   $sql  = "SELECT * FROM books";
+   $resultCount = mysqli_query($conn, $sqlCount);
+   $rowCount = mysqli_fetch_assoc($resultCount);
+   $result = mysqli_query($conn, $sql);
+   $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   if ($rowCount['count'] > 0) {
+      $books = $row;
    }else {
       $books = 0;
    }
@@ -17,10 +19,10 @@ function get_all_books($con){
 
 
 
-# Get  book by ID function
-function get_book($con, $id){
+# Get book by ID function
+function get_book($conn, $id){
    $sql  = "SELECT * FROM books WHERE id=?";
-   $stmt = $con->prepare($sql);
+   $stmt = $conn->prepare($sql);
    $stmt->execute([$id]);
 
    if ($stmt->rowCount() > 0) {
@@ -34,14 +36,14 @@ function get_book($con, $id){
 
 
 # Search books function
-function search_books($con, $key){
+function search_books($conn, $key){
    # creating simple search algorithm :) 
    $key = "%{$key}%";
 
    $sql  = "SELECT * FROM books 
             WHERE title LIKE ?
             OR description LIKE ?";
-   $stmt = $con->prepare($sql);
+   $stmt = $conn->prepare($sql);
    $stmt->execute([$key, $key]);
 
    if ($stmt->rowCount() > 0) {
