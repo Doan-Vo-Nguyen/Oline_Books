@@ -14,6 +14,8 @@
         {
             if($row['role'] == 1)
             {
+                $_SESSION['user'] = $row['ten_tk'];
+                $_SESSION['role'] = $row['role'];
                 header('location: admin.php');
             }
             else
